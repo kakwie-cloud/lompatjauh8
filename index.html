@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran PJOK Kelas 8 - Lompat Jauh Gaya Jongkok</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        sports: {
+                            sand: '#eab308',
+                            track: '#ef4444',
+                            sky: '#0284c7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes runApproach {
+            0% { transform: translateX(0px) scaleX(1); }
+            50% { transform: translateX(180px) scaleX(1); }
+            100% { transform: translateX(280px) scaleX(1); }
+        }
+        @keyframes takeOff {
+            0% { transform: translate(280px, 0px) rotate(0deg); }
+            50% { transform: translate(320px, -70px) rotate(-15deg); }
+            100% { transform: translate(380px, -80px) rotate(0deg); }
+        }
+        @keyframes flightSquat {
+            0% { transform: translate(380px, -80px) rotate(0deg); }
+            50% { transform: translate(460px, -60px) rotate(10deg); }
+            100% { transform: translate(520px, -20px) rotate(15deg); }
+        }
+        @keyframes landingPhase {
+            0% { transform: translate(520px, -20px) scaleY(1); }
+            100% { transform: translate(570px, 15px) scaleY(0.75); }
+        }
+
+        .anim-run { animation: runApproach 2s linear forwards; }
+        .anim-takeoff { animation: takeOff 1s ease-out forwards; }
+        .anim-flight { animation: flightSquat 1.2s ease-in-out forwards; }
+        .anim-landing { animation: landingPhase 0.8s ease-out forwards; }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- CONFIGURATION & GLOBAL VARIABLES -->
+    <script>
+        // GURU BISA MENGUBAH LINK-LINK DI BAWAH INI SESUAI KEBUTUHAN:
+        const VIDEO_LOMPAT_JAUH = "https://www.youtube.com/embed/dQw4w9WgXcQ"; // Ganti ID/Embed YouTube
+        const GOOGLE_FORM_URL = "https://forms.google.com"; 
+        const GOOGLE_DOCS_URL = "https://docs.google.com";
+        const GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets";
+        
+        // URL Google Apps Script Web App (Dipasang setelah deployment AppScript)
+        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = ""; // Contoh: "https://script.google.com/macros/s/AKfycbx.../exec"
+    </script>
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-gradient-to-r from-brand-800 to-emerald-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('beranda')">
+                    <div class="w-10 h-10 rounded-full bg-white text-brand-700 flex items-center justify-center font-black text-xl shadow">
+                        <i class="fa-solid fa-person-running"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight">PJOK KELAS VIII</h1>
+                        <p class="text-xs text-brand-100 hidden sm:block">Lompat Jauh Gaya Jongkok</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex space-x-1 text-sm font-medium">
+                    <button onclick="navigateTo('beranda')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-house mr-1"></i> Beranda</button>
+                    <button onclick="navigateTo('tujuan')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-bullseye mr-1"></i> Tujuan</button>
+                    <button onclick="navigateTo('materi')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-book-open mr-1"></i> Materi</button>
+                    <button onclick="navigateTo('lintasan')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-vector-square mr-1"></i> Lintasan</button>
+                    <button onclick="navigateTo('teknik')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-person-walking-arrow-right mr-1"></i> Tahapan</button>
+                    <button onclick="navigateTo('video')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-video mr-1"></i> Video</button>
+                    <button onclick="navigateTo('kuis')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold shadow"><i class="fa-solid fa-graduation-cap mr-1"></i> Kuis</button>
+                    <button onclick="navigateTo('refleksi')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-pen-to-square mr-1"></i> Refleksi</button>
+                    <button onclick="navigateTo('tugas')" class="nav-btn px-3 py-2 rounded-lg hover:bg-white/10 transition"><i class="fa-solid fa-list-check mr-1"></i> Tugas</button>
+                </nav>
+
+                <!-- Student Profile Status Indicator -->
+                <div class="hidden sm:flex items-center space-x-2 bg-brand-900/50 px-3 py-1.5 rounded-full border border-brand-500/30">
+                    <i class="fa-solid fa-circle-user text-brand-300"></i>
+                    <span id="headerStudentName" class="text-xs font-semibold text-brand-100 truncate max-w-[120px]">Belum Diisi</span>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2 rounded-lg text-white hover:bg-white/10 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-brand-900 border-t border-brand-700/50 px-4 pt-2 pb-4 space-y-1">
+            <button onclick="navigateTo('beranda')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-house w-6"></i> Beranda</button>
+            <button onclick="navigateTo('tujuan')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-bullseye w-6"></i> Tujuan Pembelajaran</button>
+            <button onclick="navigateTo('materi')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-book-open w-6"></i> Ringkasan Materi</button>
+            <button onclick="navigateTo('lintasan')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-vector-square w-6"></i> Lintasan Interaktif</button>
+            <button onclick="navigateTo('teknik')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-person-walking-arrow-right w-6"></i> Tahapan & Simulator</button>
+            <button onclick="navigateTo('video')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-video w-6"></i> Video Pembelajaran</button>
+            <button onclick="navigateTo('kuis')" class="w-full text-left px-3 py-2 rounded-md bg-amber-500 text-slate-900 font-bold text-sm"><i class="fa-solid fa-graduation-cap w-6"></i> Kuis Interaktif</button>
+            <button onclick="navigateTo('refleksi')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-pen-to-square w-6"></i> Refleksi Siswa</button>
+            <button onclick="navigateTo('tugas')" class="w-full text-left px-3 py-2 rounded-md hover:bg-brand-800 text-sm font-medium"><i class="fa-solid fa-list-check w-6"></i> Tugas & Pengumpulan</button>
+        </div>
+
+        <!-- Global Learning Progress Bar -->
+        <div class="w-full bg-brand-950 h-1.5">
+            <div id="learningProgressBar" class="bg-amber-400 h-1.5 transition-all duration-500" style="width: 11%;"></div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER WITH DYNAMIC PAGES -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 1: BERANDA -->
+        <!-- ================================================================= -->
+        <section id="page-beranda" class="page-content space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-emerald-800 to-slate-900 text-white p-8 md:p-12 shadow-2xl border border-emerald-600/30">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-amber-300">
+                        <i class="fa-solid fa-award"></i> Kurikulum Merdeka • Kelas VIII SMP
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight leading-tight">
+                        MEDIA PEMBELAJARAN INTERAKTIF PJOK
+                    </h2>
+                    <p class="text-amber-400 text-xl md:text-2xl font-bold">
+                        ATLETIK: LOMPAT JAUH GAYA JONGKOK
+                    </p>
+                    <p class="text-slate-200 text-sm md:text-base leading-relaxed">
+                        Pelajari konsep dasar, peralatan resmi, tata letak lintasan, teknik gerakan 5 tahap, video peragaan, hingga uji pemahaman melalui kuis interaktif ber-skor otomatis!
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button onclick="openStudentModal()" class="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold rounded-2xl shadow-lg hover:shadow-amber-400/30 transition transform hover:-translate-y-0.5 flex items-center space-x-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Mulai Pembelajaran</span>
+                        </button>
+                        <button onclick="showInstructionModal()" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-2xl border border-white/30 backdrop-blur-md transition flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>Petunjuk Penggunaan</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Background decorative graphic -->
+                <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none text-white">
+                    <i class="fa-solid fa-person-running text-[280px]"></i>
+                </div>
+            </div>
+
+            <!-- Quick Access Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="navigateTo('materi')" class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md border border-slate-200 cursor-pointer group transition">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-brand-600 text-2xl font-bold mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-1">Materi & Sejarah</h3>
+                    <p class="text-xs text-slate-500">Pahami sejarah atletik dunia, PASI Indonesia, dan ragam peralatan lompat jauh.</p>
+                </div>
+                <div onclick="navigateTo('lintasan')" class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md border border-slate-200 cursor-pointer group transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl font-bold mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-1">Lintasan Interaktif</h3>
+                    <p class="text-xs text-slate-500">Klik bagian-bagian awalan, papan tumpu, hingga bak pasir untuk melihat ukurannya.</p>
+                </div>
+                <div onclick="navigateTo('kuis')" class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md border border-slate-200 cursor-pointer group transition">
+                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 text-2xl font-bold mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-1">Kuis & Uji Skor</h3>
+                    <p class="text-xs text-slate-500">Uji kemampuanmu dengan 15 soal bergambar & dapatkan sertifikat predikat nilai!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 2: TUJUAN PEMBELAJARAN -->
+        <!-- ================================================================= -->
+        <section id="page-tujuan" class="page-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
+                <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
+                    <div class="p-3 bg-brand-100 text-brand-700 rounded-xl">
+                        <i class="fa-solid fa-bullseye text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Tujuan Pembelajaran</h2>
+                        <p class="text-sm text-slate-500">Capaian Pembelajaran PJOK Atletik Kelas VIII SMP</p>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 mb-6 text-sm leading-relaxed">
+                    Setelah menyelesaikan seluruh rangkaian materi, simulasi, dan kuis dalam media pembelajaran ini, peserta didik diharapkan mampu:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">1</span>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 text-sm">Pemahaman Sejarah</h4>
+                            <p class="text-xs text-slate-600 mt-1">Menjelaskan sejarah perkembangan atletik sebagai *Mother of Sports* serta lompat jauh dunia dan Indonesia (PASI).</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">2</span>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 text-sm">Identifikasi Peralatan</h4>
+                            <p class="text-xs text-slate-600 mt-1">Mengidentifikasi jenis, ukuran standar, dan fungsi peralatan serta alat keselamatan lompat jauh.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">3</span>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 text-sm">Analisis Lintasan</h4>
+                            <p class="text-xs text-slate-600 mt-1">Mengidentifikasi dan menjelaskan spesifikasi area awalan, papan tolakan, dan bak pendaratan.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">4</span>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 text-sm">Penguasaan Teknik Dasar</h4>
+                            <p class="text-xs text-slate-600 mt-1">Menjelaskan tahapan gerak spesifik lompat jauh gaya jongkok: Awalan, Tolakan, Melayang, dan Pendaratan.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">5</span>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 text-sm">Evaluasi Kesalahan</h4>
+                            <p class="text-xs text-slate-600 mt-1">Menganalisis kesalahan umum saat melakukan lompat jauh serta solusinya.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">6</span>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 text-sm">Sikap & Nilai Karakter</h4>
+                            <p class="text-xs text-slate-600 mt-1">Menunjukkan nilai disiplin, tanggung jawab, percaya diri, kejujuran, serta mengutamakan keselamatan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button onclick="navigateTo('materi')" class="px-6 py-2.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 transition flex items-center space-x-2">
+                        <span>Lanjut ke Ringkasan Materi</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 3: MATERI UTAMA -->
+        <!-- ================================================================= -->
+        <section id="page-materi" class="page-content hidden space-y-6">
+            <div class="text-center max-w-2xl mx-auto space-y-2 mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Modul Pembelajaran Utama</h2>
+                <p class="text-sm text-slate-500">Pilih kartu materi di bawah untuk membuka modul penjelasan interaktif</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1: Sejarah Atletik -->
+                <div onclick="openMateriModal('sejarah')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-landmark"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">1. Sejarah Atletik</h3>
+                        <p class="text-xs text-slate-500">Pengertian, asal-usul Yunani Kuno, Olimpiade, hingga lahirnya PASI di Indonesia.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 2: Peralatan -->
+                <div onclick="openMateriModal('peralatan')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-toolbox"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">2. Peralatan Lompat Jauh</h3>
+                        <p class="text-xs text-slate-500">Papan tumpu, bak pasir, meteran roll, perata pasir, dan aspek keselamatan.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 3: Lintasan -->
+                <div onclick="openMateriModal('lintasan_materi')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-red-100 text-red-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-ruler-combined"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">3. Ukuran Lintasan</h3>
+                        <p class="text-xs text-slate-500">Panjang awalan 30-45m, dimensi papan tolakan, dan kedalaman bak pasir pendaratan.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 4: Awalan -->
+                <div onclick="openMateriModal('awalan')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-person-running"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">4. Teknik Awalan</h3>
+                        <p class="text-xs text-slate-500">Lari akselerasi bertahap untuk mencapai kecepatan maksimal sebelum menumpu.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 5: Tolakan -->
+                <div onclick="openMateriModal('tolakan')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-shoe-prints"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">5. Teknik Tolakan</h3>
+                        <p class="text-xs text-slate-500">Tumpuan satu kaki terkuat pada papan tolakan untuk menghasilkan daya dorong atas.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 6: Melayang -->
+                <div onclick="openMateriModal('melayang')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-wind"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">6. Teknik Melayang</h3>
+                        <p class="text-xs text-slate-500">Menjaga keseimbangan tubuh di udara sebelum memposisikan paha ke depan.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 7: Gaya Jongkok -->
+                <div onclick="openMateriModal('jongkok')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-child-reaching"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">7. Sikap Gaya Jongkok</h3>
+                        <p class="text-xs text-slate-500">Ciri khas menekuk kedua lutut dekat dada dan mengayunkan kedua tangan ke depan.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 8: Pendaratan -->
+                <div onclick="openMateriModal('pendaratan')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-orange-100 text-orange-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-bullseye-pointer"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">8. Teknik Pendaratan</h3>
+                        <p class="text-xs text-slate-500">Mendarat dengan dua tumit bersamaan, mengeper, dan menjatuhkan badan ke depan.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-semibold text-brand-600 flex items-center space-x-1 group-hover:underline">
+                        <span>Baca Selengkapnya</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 4: LINTASAN INTERAKTIF -->
+        <!-- ================================================================= -->
+        <section id="page-lintasan" class="page-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Diagram Lintasan Lompat Jauh Interaktif</h2>
+                        <p class="text-sm text-slate-500">Sentuh / Klik pada bagian lintasan berwarna untuk melihat nama, fungsi, dan spesifikasinya.</p>
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs font-semibold bg-slate-100 px-3 py-2 rounded-lg text-slate-600">
+                        <i class="fa-solid fa-hand-pointer text-brand-600"></i>
+                        <span>Klik Bagian Lintasan</span>
+                    </div>
+                </div>
+
+                <!-- SVG Interactive Track Field -->
+                <div class="overflow-x-auto custom-scrollbar p-4 bg-slate-900 rounded-2xl shadow-inner">
+                    <div class="min-w-[750px] relative">
+                        <svg viewBox="0 0 900 320" class="w-full h-auto rounded-xl">
+                            <!-- Background Grass Field -->
+                            <rect width="900" height="320" fill="#15803d" rx="10"/>
+
+                            <!-- Approach Runway (Lintasan Awalan) -->
+                            <g onclick="showTrackDetail('awalan')" class="cursor-pointer group">
+                                <rect x="30" y="110" width="480" height="100" fill="#dc2626" rx="4"/>
+                                <line x1="30" y1="160" x2="510" y2="160" stroke="#ffffff" stroke-width="2" stroke-dasharray="8 8"/>
+                                <text x="240" y="155" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">LINTASAN AWALAN (30 - 45 METER)</text>
+                                <text x="240" y="175" fill="#fecaca" font-size="11" text-anchor="middle">Klik untuk detail fungsi</text>
+                            </g>
+
+                            <!-- Takeoff Board & Plasticine Foul Line -->
+                            <g onclick="showTrackDetail('papan')" class="cursor-pointer group">
+                                <rect x="510" y="110" width="20" height="100" fill="#ffffff" stroke="#000" stroke-width="1"/>
+                                <rect x="530" y="110" width="8" height="100" fill="#000000"/>
+                                <text x="520" y="90" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Papan Tolakan</text>
+                                <line x1="520" y1="95" x2="520" y2="108" stroke="#ffffff" stroke-width="2"/>
+                            </g>
+
+                            <!-- Sand Pit Landing Area (Bak Pasir) -->
+                            <g onclick="showTrackDetail('bak')" class="cursor-pointer group">
+                                <rect x="550" y="80" width="310" height="160" fill="#eab308" rx="6" stroke="#ca8a04" stroke-width="3"/>
+                                <text x="705" y="155" fill="#713f12" font-size="16" font-weight="bold" text-anchor="middle">BAK PASIR PENDARATAN</text>
+                                <text x="705" y="175" fill="#854d0e" font-size="12" text-anchor="middle">(Min. 7 - 9 Meter x 2.75 Meter)</text>
+                            </g>
+
+                            <!-- Athlete Direction Indicator Arrow -->
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+                                </marker>
+                            </defs>
+                            <line x1="50" y1="250" x2="480" y2="250" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow)"/>
+                            <text x="260" y="275" fill="#fef3c7" font-size="13" font-weight="bold" text-anchor="middle">ARAH LARI ATLET ➔</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Dynamic Track Detail Info Card -->
+                <div id="trackInfoBox" class="bg-slate-50 p-6 rounded-2xl border border-slate-200 min-h-[140px] flex items-center justify-center">
+                    <p class="text-slate-500 text-center text-sm italic">
+                        <i class="fa-solid fa-hand-pointer mr-2"></i> Silakan klik salah satu bagian diagram di atas (Awalan, Papan Tolakan, atau Bak Pasir) untuk membaca penjelasan rinci.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 5: TEKNIK & SIMULATOR ANIMASI -->
+        <!-- ================================================================= -->
+        <section id="page-teknik" class="page-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Tahapan Teknik Lompat Jauh Gaya Jongkok</h2>
+                        <p class="text-sm text-slate-500">Pelajari 5 tahapan pelaksanaan dan jalankan simulasi gerakan interaktif</p>
+                    </div>
+                    <!-- Stepper Buttons -->
+                    <div class="flex items-center space-x-2">
+                        <button onclick="changeStep(-1)" id="prevStepBtn" class="px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-40"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span id="stepIndicatorText" class="text-sm font-bold text-slate-700 px-3">Tahap 1 / 5</span>
+                        <button onclick="changeStep(1)" id="nextStepBtn" class="px-4 py-2 bg-brand-600 text-white font-semibold rounded-lg hover:bg-brand-700"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Canvas / Visual Simulator Box -->
+                <div class="bg-slate-900 rounded-2xl p-4 overflow-hidden relative min-h-[220px] flex items-center justify-center border border-slate-800">
+                    <div class="w-full max-w-2xl relative h-40">
+                        <!-- Track Line -->
+                        <div class="absolute bottom-4 left-0 right-0 h-3 bg-red-600 rounded"></div>
+                        <!-- Takeoff Board -->
+                        <div class="absolute bottom-4 left-[300px] w-5 h-5 bg-white border border-slate-400"></div>
+                        <!-- Sand Pit -->
+                        <div class="absolute bottom-0 right-0 w-[240px] h-10 bg-amber-500 rounded-tl-lg"></div>
+
+                        <!-- Athlete SVG Avatar -->
+                        <div id="athleteAvatar" class="absolute bottom-7 left-4 transition-all duration-700 text-amber-300">
+                            <i id="athleteIcon" class="fa-solid fa-person-running text-5xl"></i>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-amber-300">
+                        <i class="fa-solid fa-circle-play mr-1"></i> Simulator Peragaan
+                    </div>
+                </div>
+
+                <!-- Detail Content for Selected Step -->
+                <div id="stepDetailCard" class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 6: VIDEO PEMBELAJARAN -->
+        <!-- ================================================================= -->
+        <section id="page-video" class="page-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Video Peragaan Gerakan</h2>
+                    <p class="text-sm text-slate-500">Saksikan video analisis teknik dasar lompat jauh gaya jongkok secara visual</p>
+                </div>
+
+                <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 shadow-lg border border-slate-200">
+                    <iframe id="youtubeIframe" class="w-full h-full" src="" title="Video Pembelajaran Lompat Jauh" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start space-x-3 text-xs text-amber-800">
+                    <i class="fa-solid fa-lightbulb text-amber-600 text-base mt-0.5"></i>
+                    <div>
+                        <p class="font-bold">Catatan untuk Bapak/Ibu Guru:</p>
+                        <p>Link embed video YouTube di atas disesuaikan melalui variabel JavaScript <code class="bg-amber-100 px-1 py-0.5 rounded font-mono text-amber-900">VIDEO_LOMPAT_JAUH</code> di bagian atas file kode HTML ini.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 7: KUIS INTERAKTIF -->
+        <!-- ================================================================= -->
+        <section id="page-kuis" class="page-content hidden space-y-6">
+            <div id="quizContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 space-y-6">
+                <!-- Quiz Header Progress -->
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-brand-600">Uji Pemahaman</span>
+                        <h2 class="text-xl font-bold text-slate-800">Kuis Evaluasi Lompat Jauh</h2>
+                    </div>
+                    <div class="text-right">
+                        <span id="quizCounter" class="text-sm font-bold text-slate-700">Soal 1 / 15</span>
+                        <div class="w-28 bg-slate-200 h-2 rounded-full mt-1">
+                            <div id="quizProgressBar" class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: 6.6%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Text Box -->
+                <div class="space-y-4">
+                    <h3 id="questionText" class="text-lg font-bold text-slate-800 leading-snug">
+                        <!-- Populated by JS -->
+                    </h3>
+
+                    <!-- Options Container -->
+                    <div id="optionsContainer" class="space-y-3">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div id="explanationBox" class="hidden p-4 rounded-xl border text-sm leading-relaxed">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Action Footer -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                    <button id="submitAnswerBtn" onclick="submitQuizAnswer()" class="px-6 py-2.5 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition">
+                        Jawab Soal
+                    </button>
+                    <button id="nextQuestionBtn" onclick="nextQuizQuestion()" class="hidden px-6 py-2.5 bg-amber-500 text-slate-900 font-bold rounded-xl hover:bg-amber-400 transition">
+                        Soal Berikutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Card (Hidden Initially) -->
+            <div id="quizResultBox" class="hidden bg-white rounded-2xl p-6 md:p-8 shadow-xl border border-slate-200 text-center space-y-6">
+                <div class="w-20 h-20 mx-auto rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-4xl shadow-inner">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-800">HASIL PEMBELAJARAN</h2>
+                    <p class="text-sm text-slate-500 mt-1">Berikut adalah ringkasan capaian kuis evaluasimu</p>
+                </div>
+
+                <!-- Student Identity Result Grid -->
+                <div class="max-w-md mx-auto bg-slate-50 p-4 rounded-xl border border-slate-200 text-left text-sm space-y-2">
+                    <div class="flex justify-between"><span class="text-slate-500">Nama Siswa:</span><span id="resName" class="font-bold text-slate-800">-</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">Kelas / No Absen:</span><span id="resClass" class="font-bold text-slate-800">-</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">Jumlah Benar:</span><span id="resCorrect" class="font-bold text-emerald-600">0 / 15</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">Jumlah Salah:</span><span id="resWrong" class="font-bold text-red-600">0 / 15</span></div>
+                    <div class="flex justify-between border-t border-slate-200 pt-2"><span class="text-slate-700 font-bold">Nilai Akhir:</span><span id="resScore" class="font-black text-xl text-brand-600">0</span></div>
+                    <div class="flex justify-between"><span class="text-slate-700 font-bold">Kategori Predikat:</span><span id="resCategory" class="font-bold px-2 py-0.5 rounded text-xs"></span></div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="restartQuiz()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Coba Lagi
+                    </button>
+                    <button onclick="sendScoreToGoogle()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow transition">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Kirim Nilai ke Guru
+                    </button>
+                    <button onclick="navigateTo('refleksi')" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition">
+                        Lanjut ke Refleksi <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 8: REFLEKSI SISWA -->
+        <!-- ================================================================= -->
+        <section id="page-refleksi" class="page-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
+                <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
+                    <div class="p-3 bg-amber-100 text-amber-700 rounded-xl">
+                        <i class="fa-solid fa-pen-to-square text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Refleksi Peserta Didik</h2>
+                        <p class="text-sm text-slate-500">Ungkapkan pengalaman dan pemahamanmu selama mempelajari materi ini</p>
+                    </div>
+                </div>
+
+                <form id="reflectionForm" onsubmit="handleReflectionSubmit(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">1. Apa hal baru yang paling menarik yang kamu pelajari hari ini?</label>
+                        <textarea id="ref1" rows="2" required class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">2. Tahapan teknik mana (Awalan, Tolakan, Melayang, Jongkok, Pendaratan) yang paling kamu kuasai?</label>
+                        <textarea id="ref2" rows="2" required class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">3. Tahapan mana yang menurutmu masih sulit dan butuh latihan ekstra?</label>
+                        <textarea id="ref3" rows="2" required class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">4. Bagaimana caramu menjaga keselamatan diri dan teman saat praktik lompat jauh di lapangan?</label>
+                        <textarea id="ref4" rows="2" required class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow transition flex items-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Kirim Refleksi Pembelajaran</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 9: TUGAS PESERTA DIDIK & INTEGRASI GOOGLE -->
+        <!-- ================================================================= -->
+        <section id="page-tugas" class="page-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Tugas Peserta Didik</h2>
+                    <p class="text-sm text-slate-500">Kerjakan tugas terstruktur berikut sesuai petunjuk arahan guru PJOK</p>
+                </div>
+
+                <!-- Tasks Cards list -->
+                <div class="space-y-4">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs font-bold px-2 py-1 bg-brand-100 text-brand-700 rounded">Tugas 1 - Teori</span>
+                        <h4 class="font-bold text-slate-800 mt-2">Sejarah Singkat Atletik</h4>
+                        <p class="text-xs text-slate-600 mt-1">Jelaskan mengapa atletik dinamakan *Mother of Sports* dan sebutkan tanggal berdirinya PASI di Indonesia!</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs font-bold px-2 py-1 bg-brand-100 text-brand-700 rounded">Tugas 2 - Peralatan</span>
+                        <h4 class="font-bold text-slate-800 mt-2">Peralatan Lompat Jauh</h4>
+                        <p class="text-xs text-slate-600 mt-1">Sebutkan 4 peralatan utama lompat jauh beserta fungsinya masing-masing dalam pertandingan.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs font-bold px-2 py-1 bg-brand-100 text-brand-700 rounded">Tugas 3 - Gambar Diagram</span>
+                        <h4 class="font-bold text-slate-800 mt-2">Sketsa Lintasan Lompat Jauh</h4>
+                        <p class="text-xs text-slate-600 mt-1">Gambarkan sketsa sederhana lintasan lompat jauh pada buku tugasmu, lengkap dengan ukurannya!</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs font-bold px-2 py-1 bg-brand-100 text-brand-700 rounded">Tugas 4 - Analisis Teknik</span>
+                        <h4 class="font-bold text-slate-800 mt-2">Tahapan Gaya Jongkok</h4>
+                        <p class="text-xs text-slate-600 mt-1">Uraikan urutan posisi tubuh mulai dari tolakan hingga pendaratan pada gaya jongkok.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs font-bold px-2 py-1 bg-brand-100 text-brand-700 rounded">Tugas 5 - Praktik Mandiri</span>
+                        <h4 class="font-bold text-slate-800 mt-2">Rekaman Video Praktik</h4>
+                        <p class="text-xs text-slate-600 mt-1">Buat video singkat durasi 30-60 detik saat kamu melakukan latihan gerak spesifik lompat jauh gaya jongkok.</p>
+                    </div>
+                </div>
+
+                <!-- Google Integration Section -->
+                <div class="pt-6 border-t border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slate-800 text-lg flex items-center space-x-2">
+                        <i class="fa-brands fa-google text-red-500"></i>
+                        <span>Pengumpulan Tugas & Akses Dokumen Google</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">Gunakan tombol-tombol berikut untuk membuka formulir pengumpulan tugas atau melihat rekapitulasi data:</p>
+
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="openExternalUrl(GOOGLE_FORM_URL)" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow transition text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-file-signature"></i>
+                            <span>Kumpulkan Tugas (Google Form)</span>
+                        </button>
+                        <button onclick="openExternalUrl(GOOGLE_DOCS_URL)" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-file-word"></i>
+                            <span>Buka Panduan (Google Docs)</span>
+                        </button>
+                        <button onclick="openExternalUrl(GOOGLE_SHEETS_URL)" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-table"></i>
+                            <span>Lihat Data Nilai (Google Sheets)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-12 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-semibold text-slate-300">Media Pembelajaran PJOK Interaktif Kelas 8 SMP • Lompat Jauh Gaya Jongkok</p>
+            <p>Dirancang untuk Kurikulum Merdeka • Berbasis Web Mobile-First</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DIALOGS -->
+
+    <!-- 1. Modal Identitas Siswa -->
+    <div id="studentModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl border border-slate-100">
+            <div class="text-center space-y-1">
+                <div class="w-14 h-14 bg-brand-100 text-brand-600 rounded-full mx-auto flex items-center justify-center text-2xl font-bold">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Identitas Peserta Didik</h3>
+                <p class="text-xs text-slate-500">Lengkapi data diri sebelum memulai kuis & pembelajaran</p>
+            </div>
+
+            <form onsubmit="saveStudentProfile(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap</label>
+                    <input type="text" id="inputStudentName" required placeholder="Contoh: Budi Santoso" class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kelas</label>
+                        <select id="inputStudentClass" required class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <option value="VIII-A">VIII-A</option>
+                            <option value="VIII-B">VIII-B</option>
+                            <option value="VIII-C">VIII-C</option>
+                            <option value="VIII-D">VIII-D</option>
+                            <option value="VIII-E">VIII-E</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">No. Absen</label>
+                        <input type="number" id="inputStudentAbsen" min="1" max="50" required placeholder="15" class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg transition">
+                        Simpan & Lanjutkan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Modal Petunjuk Penggunaan -->
+    <div id="instructionModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-circle-info text-brand-600 mr-2"></i>Petunjuk Penggunaan Media</h3>
+                <button onclick="closeInstructionModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="space-y-3 text-xs text-slate-600 leading-relaxed max-h-80 overflow-y-auto custom-scrollbar pr-2">
+                <p>1. **Isi Data Diri:** Masukkan Nama, Kelas, dan No Absen melalui tombol di beranda.</p>
+                <p>2. **Pelajari Materi:** Buka menu **Materi** & **Lintasan** untuk memahami aturan resmi serta ukuran sarana lompat jauh.</p>
+                <p>3. **Simulasi Gerakan:** Buka menu **Tahapan** untuk melihat animasi urutan lompat jauh gaya jongkok.</p>
+                <p>4. **Saksikan Video:** Tonton video teknik gerakan pada menu **Video**.</p>
+                <p>5. **Kerjakan Kuis:** Jawab 15 soal kuis interaktif hingga tuntas untuk mendapatkan skor otomatis.</p>
+                <p>6. **Refleksi & Tugas:** Isi jurnal refleksi dan kerjakan tugas yang diberikan guru.</p>
+            </div>
+            <button onclick="closeInstructionModal()" class="w-full py-2.5 bg-slate-800 text-white font-bold rounded-xl">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- 3. Modal Rincian Materi -->
+    <div id="materiDetailModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 id="materiModalTitle" class="font-bold text-xl text-slate-800">Judul Materi</h3>
+                <button onclick="closeMateriModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+            <div id="materiModalBody" class="overflow-y-auto custom-scrollbar space-y-3 text-sm text-slate-600 leading-relaxed pr-2">
+                <!-- Populated by JS -->
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex justify-end">
+                <button onclick="closeMateriModal()" class="px-5 py-2 bg-slate-800 text-white font-semibold rounded-xl text-sm">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        
+        // APP STATE
+        let studentProfile = {
+            name: '',
+            class: '',
+            absen: ''
+        };
+
+        let currentStepIndex = 0;
+        let currentQuizIndex = 0;
+        let quizAnswers = [];
+        let quizScore = 0;
+
+        // DATA MATERI MODAL CONTENT
+        const MATERI_DATA = {
+            sejarah: {
+                title: "Sejarah Atletik & Lompat Jauh",
+                content: `
+                    <p class="font-semibold text-slate-800">Pengertian & Asal-usul Atletik:</p>
+                    <p>Atletik dikenal sebagai <strong>"Mother of Sports"</strong> (induk dari segala cabang olahraga) karena gerakan utamanya—seperti jalan, lari, lompat, dan lempar—merupakan gerakan paling mendasar dalam kehidupan manusia.</p>
+                    <p>Atletik berasal dari bahasa Yunani <em>"Athlon"</em> yang berarti perlombaan atau perjuangan. Perlombaan atletik pertama kali dicatat pada Olimpiade Kuno di Yunani tahun 776 SM.</p>
+                    
+                    <p class="font-semibold text-slate-800 mt-4">Perkembangan di Indonesia:</p>
+                    <p>Di Indonesia, induk organisasi olahraga atletik adalah <strong>PASI (Persatuan Atletik Seluruh Indonesia)</strong> yang didirikan pada tanggal <strong>23 September 1950</strong> di Semarang.</p>
+
+                    <p class="font-semibold text-slate-800 mt-4">Gaya Lompat Jauh:</p>
+                    <p>Dalam lompat jauh terdapat 3 gaya utama di udara: 1) Gaya Jongkok (Squat Style / Tuck), 2) Gaya Menggantung (Hang Style), dan 3) Gaya Berjalan di Udara (Walking in the air). Gaya jongkok adalah gaya paling mendasar yang paling cocok dipelajari oleh siswa SMP.</p>
+                `
+            },
+            peralatan: {
+                title: "Peralatan Lompat Jauh",
+                content: `
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Lintasan Awalan:</strong> Panjang 30–45 meter dengan lebar 1,22 meter berpermukaan rata dan tidak licin.</li>
+                        <li><strong>Papan Tolakan:</strong> Berwarna putih, panjang 1,21–1,22 m, lebar 20 cm, dan tebal 10 cm. Dipasang rata dengan tanah.</li>
+                        <li><strong>Papan Lilin/Plastisin:</strong> Dipasang persis di depan papan tolakan untuk mendeteksi bekas pijakan kaki jika terjadi diskualifikasi (foul).</li>
+                        <li><strong>Bak Pasir Pendaratan:</strong> Minimal panjang 7–9 meter dan lebar 2,75 meter. Berisi pasir halus dan gembur bebas batu/benda tajam.</li>
+                        <li><strong>Meteran Roll & Bendera:</strong> Digunakan hakim untuk mengukur jarak lompatan dan memberi tanda sah/tidaknya lompatan.</li>
+                    </ul>
+                `
+            },
+            lintasan_materi: {
+                title: "Spesifikasi Lintasan Lompat Jauh",
+                content: `
+                    <p>Ukuran standar internasional untuk lintasan lompat jauh:</p>
+                    <div class="bg-slate-100 p-4 rounded-xl space-y-2 font-mono text-xs text-slate-800">
+                        <p>• Panjang Awalan: 30 - 45 Meter</p>
+                        <p>• Lebar Lintasan Awalan: 1,22 Meter</p>
+                        <p>• Papan Tolakan: 1,21 - 1,22 M x 20 Cm x 10 Cm</p>
+                        <p>• Jarak Papan ke Bak Pasir: 1 - 3 Meter</p>
+                        <p>• Panjang Bak Pasir: 7 - 9 Meter</p>
+                        <p>• Lebar Bak Pasir: 2,75 Meter</p>
+                    </div>
+                `
+            },
+            awalan: {
+                title: "Teknik Awalan (Approach Run)",
+                content: `
+                    <p><strong>Pengertian:</strong> Lari cepat menuju papan tolakan untuk membangun kecepatan horizontal maksimal.</p>
+                    <p><strong>Cara Melakukan:</strong> Lari dimulai perlahan lalu dipercepat secara bertahap (akselerasi) tanpa mengubah panjang langkah menjelang papan tumpu.</p>
+                    <p><strong>Kesalahan Umum:</strong> Mengubah kecepatan/panjang langkah saat mendekati papan karena ragu-ragu.</p>
+                `
+            },
+            tolakan: {
+                title: "Teknik Tolakan (Take-off)",
+                content: `
+                    <p><strong>Pengertian:</strong> Perubahan dari kecepatan horizontal menjadi daya dorong vertikal-ke-atas menggunakan satu kaki terkuat.</p>
+                    <p><strong>Cara Melakukan:</strong> Tumpukan satu kaki terkuat pada papan tolakan, lutut sedikit ditekuk lalu dihentakkan kuat-kuat sambil mengayun paha kaki lainnya ke atas.</p>
+                    <p><strong>Kesalahan Umum:</strong> Menginjak melebihi garis papan tolakan (foul/diskualifikasi) atau menumpu dengan dua kaki.</p>
+                `
+            },
+            melayang: {
+                title: "Teknik Melayang di Udara",
+                content: `
+                    <p><strong>Pengertian:</strong> Menjaga keseimbangan posisi tubuh saat berada di udara sebelum mendarat.</p>
+                    <p><strong>Tujuan:</strong> Mempertahankan titik berat badan agar melayang selamanya dan menyiapkan posisi pendaratan yang jauh.</p>
+                `
+            },
+            jongkok: {
+                title: "Sikap Gaya Jongkok saat Melayang",
+                content: `
+                    <p><strong>Ciri Khas Gaya Jongkok:</strong> Segera setelah bertumpu, paha kaki tumpu diangkat ke depan menyusul kaki ayun. Kedua lutut ditekuk dekat dada seolah-olah duduk bersila/jongkok di udara, dengan kedua lengan diayun lurus ke depan.</p>
+                `
+            },
+            pendaratan: {
+                title: "Teknik Pendaratan (Landing)",
+                content: `
+                    <p><strong>Pengertian:</strong> Pelepasan tumpuan tubuh ke bak pasir secara aman.</p>
+                    <p><strong>Cara Melakukan:</strong> Mendarat menggunakan kedua tumit secara bersamaan, lutut mengeper (ditekuk), dan dorong berat badan ke depan agar tidak jatuh ke belakang.</p>
+                    <p><strong>Tips Penting:</strong> Jika badan jatuh ke belakang dan tangan menyentuh pasir di belakang tumit, maka jarak lompatan diukur dari sentuhan tangan terdekat tersebut!</p>
+                `
+            }
+        };
+
+        const STEPS_DATA = [
+            {
+                title: "1. Awalan (Approach Run)",
+                definition: "Lari akselerasi dari garis start menuju papan tolakan.",
+                target: "Mencapai kecepatan lari tertinggi sebelum menumpu.",
+                howTo: "Lari dengan langkah yang ajeg (konsisten) dan percepat lari mendekati papan.",
+                mistake: "Ragu-ragu atau menoleh ke bawah melihat papan tolakan.",
+                tip: "Fokus pandangan lurus ke depan, bukan ke tanah.",
+                icon: "fa-person-running",
+                animClass: "anim-run"
+            },
+            {
+                title: "2. Tolakan (Take-off)",
+                definition: "Tolakan kaki pada papan tumpuan.",
+                target: "Mengubah kecepatan lari menjadi sudut lompatan ke atas-depan.",
+                howTo: "Gunakan 1 kaki terkuat. Hentakkan tumit hingga telapak kaki pada papan.",
+                mistake: "Menginjak melebihi batas papan (Diskualifikasi/Gagal).",
+                tip: "Latih *check-mark* titik awal lari agar pijakan pas.",
+                icon: "fa-shoe-prints",
+                animClass: "anim-takeoff"
+            },
+            {
+                title: "3. Melayang di Udara",
+                definition: "Fase tubuh terangkat di udara.",
+                target: "Menjaga keseimbangan posisi tubuh.",
+                howTo: "Ayunkan tangan ke atas depan bersama paha kaki ayun.",
+                mistake: "Badan terlalu bungkuk atau kaku di udara.",
+                tip: "Busungkan dada sesaat setelah lepas dari papan.",
+                icon: "fa-wind",
+                animClass: "anim-flight"
+            },
+            {
+                title: "4. Sikap Jongkok di Udara",
+                definition: "Membentuk posisi jongkok saat melayang.",
+                target: "Mempersiapkan jangkauan pendaratan kedua kaki serjauh mungkin.",
+                howTo: "Tekuk kedua lutut rapat mendekati dada, kedua tangan diayun ke depan.",
+                mistake: "Lutut tidak diangkat sehingga kaki jatuh lebih cepat.",
+                tip: "Tarik napas dan tahan posisi jongkok sebelum mendarat.",
+                icon: "fa-child-reaching",
+                animClass: "anim-flight"
+            },
+            {
+                title: "5. Pendaratan (Landing)",
+                definition: "Mendarat di bak pasir.",
+                target: "Mendarat aman tanpa mengurangi jarak ukur lompatan.",
+                howTo: "Mendarat dengan 2 tumit bersamaan, tekuk lutut mengeper, lemparkan badan ke depan.",
+                mistake: "Jatuh terduduk ke belakang atau menyentuh pasir dengan tangan di belakang tumit.",
+                tip: "Ayunkan kedua lengan kuat-kuat ke depan saat tumit menyentuh pasir.",
+                icon: "fa-bullseye-pointer",
+                animClass: "anim-landing"
+            }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "1. Induk organisasi olahraga atletik nasional di Indonesia adalah...",
+                options: ["PBSI", "PASI", "PSSI", "PERBASI"],
+                correct: 1,
+                exp: "PASI (Persatuan Atletik Seluruh Indonesia) didirikan pada 23 September 1950 di Semarang."
+            },
+            {
+                q: "2. Cabang olahraga atletik sering dijuluki sebagai 'Mother of Sports' karena...",
+                options: [
+                    "Merupakan olahraga tertua di dunia",
+                    "Gerakan dasarnya (jalan, lari, lompat, lempar) mendasari semua cabang olahraga lain",
+                    "Membutuhkan lapangan yang sangat luas",
+                    "Selalu diperlombakan paling awal di Olimpiade"
+                ],
+                correct: 1,
+                exp: "Gerakan atletik adalah gerak alami manusia yang menjadi dasar seluruh olahraga lain."
+            },
+            {
+                q: "3. Berapakah ukuran panjang standar lintasan awalan lompat jauh?",
+                options: ["10 - 20 Meter", "20 - 30 Meter", "30 - 45 Meter", "50 - 60 Meter"],
+                correct: 2,
+                exp: "Panjang lintasan awalan lompat jauh standar internasional adalah 30 hingga 45 meter."
+            },
+            {
+                q: "4. Berapa meter ukuran lebar standar papan tolakan lompat jauh?",
+                options: ["10 cm", "20 cm", "30 cm", "40 cm"],
+                correct: 1,
+                exp: "Papan tolakan memiliki panjang 1,21–1,22 m dan lebar 20 cm."
+            },
+            {
+                q: "5. Kaki yang digunakan untuk melakukan tolakan pada papan tumpuan adalah...",
+                options: ["Kaki kiri saja", "Kaki kanan saja", "Kedua kaki bersamaan", "Satu kaki terkuat"],
+                correct: 3,
+                exp: "Tolakan wajib dilakukan dengan satu kaki terkuat. Menumpu dengan dua kaki tidak sah."
+            },
+            {
+                q: "6. Tujuan utama dari fase lari awalan dalam lompat jauh adalah...",
+                options: [
+                    "Mencapai kecepatan maksimal sebelum melakukan tolakan",
+                    "Mencapai papan tolakan secepat mungkin tanpa aturan",
+                    "Mengatur napas agar tidak lelah",
+                    "Melakukan lompatan kecil sebelum papan"
+                ],
+                correct: 0,
+                exp: "Awalan bertujuan membangun kecepatan horizontal maksimal yang akan diubah menjadi daya lompat."
+            },
+            {
+                q: "7. Ciri khas utama dari gerakan lompat jauh GAYA JONGKOK saat melayang di udara adalah...",
+                options: [
+                    "Badan dilentingkan ke belakang seperti melengkung",
+                    "Kedua paha diangkat ke depan dan lutut ditekuk mendekati dada",
+                    "Kaki melangkah seperti berjalan cepat di udara",
+                    "Tangan direntangkan lebar ke samping"
+                ],
+                correct: 1,
+                exp: "Pada gaya jongkok (tuck style), kedua lutut ditekuk mendekati dada seolah-olah posisi jongkok/duduk."
+            },
+            {
+                q: "8. Pendaratan pada lompat jauh gaya jongkok yang benar dilakukan menggunakan...",
+                options: ["Satu kaki terkuat", "Kedua tumit secara bersamaan", "Ujung jari kaki", "Lutut langsung menekuk ke tanah"],
+                correct: 1,
+                exp: "Mendaratlah dengan kedua tumit bersamaan lalu mengeperkan lutut agar aman dari cidera."
+            },
+            {
+                q: "9. Pengukuran jarak lompatan atlet diambil mulai dari garis batas tolakan sampai ke...",
+                options: [
+                    "Ujung terdepan bak pasir",
+                    "Bekas pendaratan/pijakan terdekat dengan papan tolakan",
+                    "Titik tengah bak pasir",
+                    "Tempat atlet berdiri setelah keluar dari bak pasir"
+                ],
+                correct: 1,
+                exp: "Jarak diukur dari papan tolakan ke bekas pendaratan anggota tubuh yang paling dekat dengan papan."
+            },
+            {
+                q: "10. Lompatan seorang atlet dinyatakan TIDAK SAH (Foul) apabila...",
+                options: [
+                    "Mendarat dengan dua kaki bersamaan",
+                    "Kaki menumpu melebihi garis batas depan papan tolakan",
+                    "Lari awalan terlalu cepat",
+                    "Kedua tangan diayun ke depan saat melayang"
+                ],
+                correct: 1,
+                exp: "Menginjak garis atau melebihi papan tolakan menyebabkan bendera merah berkibar (Foul)."
+            },
+            {
+                q: "11. Alat yang digunakan hakim untuk meratakan kembali pasir pendaratan setelah digunakan lompat adalah...",
+                options: ["Meteran roll", "Perata pasir / cangkul perata", "Papan lilin", "Bendera hakim"],
+                correct: 1,
+                exp: "Perata pasir digunakan agar permukaan pasir kembali rata dan gembur demi keselamatan."
+            },
+            {
+                q: "12. Mengapa lutut harus mengeper (ditekuk) saat tumit mendarat di bak pasir?",
+                options: [
+                    "Agar lompatan terlihat indah",
+                    "Untuk meredam benturan dan mencegah cedera persendian",
+                    "Agar pasir tidak terlempar ke luar",
+                    "Supaya tidak mendiskualifikasi lompatan"
+                ],
+                correct: 1,
+                exp: "Gerakan mengeper berfungsi sebagai peredam kejut (*shock absorber*) persendian lutut."
+            },
+            {
+                q: "13. Arah jatuhnya badan saat mendarat sebaiknya diusahakan ke arah...",
+                options: ["Samping kiri", "Samping kanan", "Depan", "Belakang"],
+                correct: 2,
+                exp: "Badan harus didorong ke depan agar tangan atau punggung tidak menyentuh pasir di belakang tumit."
+            },
+            {
+                q: "14. Lebar standar bak pasir pendaratan lompat jauh adalah...",
+                options: ["1,22 meter", "2,00 meter", "2,75 meter", "5,00 meter"],
+                correct: 2,
+                exp: "Lebar bak pendaratan minimal 2,75 meter."
+            },
+            {
+                q: "15. Apa aspek keselamatan paling utama yang harus diperhatikan pada bak pasir sebelum digunakan?",
+                options: [
+                    "Pasir harus berwarna putih bersih",
+                    "Pasir gembur dan bebas dari batu, kaca, atau benda tajam",
+                    "Bak pasir diisi air sedikit",
+                    "Pasir padat dan keras"
+                ],
+                correct: 1,
+                exp: "Pasir wajib gembur dan steril dari benda tajam untuk mencegah cidera saat mendarat."
+            }
+        ];
+
+        
+        window.onload = function() {
+            // Load saved student profile
+            const savedProfile = localStorage.getItem('pjok_student_profile');
+            if (savedProfile) {
+                studentProfile = JSON.parse(savedProfile);
+                updateHeaderStudentName();
+            }
+
+            // Set YouTube Video Embed URL
+            document.getElementById('youtubeIframe').src = VIDEO_LOMPAT_JAUH;
+
+            // Render First Step in Simulator
+            renderStepSimulator();
+
+            // Render First Quiz Question
+            renderQuizQuestion();
+        };
+
+        // NAVIGATION HANDLER
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected page
+            const target = document.getElementById('page-' + pageId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Close mobile drawer if open
+            document.getElementById('mobileMenu').classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update progress bar percentage based on page
+            updateProgressBar(pageId);
+        }
+
+        function updateProgressBar(pageId) {
+            const pages = ['beranda', 'tujuan', 'materi', 'lintasan', 'teknik', 'video', 'kuis', 'refleksi', 'tugas'];
+            const idx = pages.indexOf(pageId);
+            if (idx !== -1) {
+                const pct = Math.round(((idx + 1) / pages.length) * 100);
+                document.getElementById('learningProgressBar').style.width = pct + '%';
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        
+        function openStudentModal() {
+            document.getElementById('studentModal').classList.remove('hidden');
+            if (studentProfile.name) {
+                document.getElementById('inputStudentName').value = studentProfile.name;
+                document.getElementById('inputStudentClass').value = studentProfile.class;
+                document.getElementById('inputStudentAbsen').value = studentProfile.absen;
+            }
+        }
+
+        function saveStudentProfile(e) {
+            e.preventDefault();
+            studentProfile.name = document.getElementById('inputStudentName').value.trim();
+            studentProfile.class = document.getElementById('inputStudentClass').value;
+            studentProfile.absen = document.getElementById('inputStudentAbsen').value;
+
+            localStorage.setItem('pjok_student_profile', JSON.stringify(studentProfile));
+            updateHeaderStudentName();
+            document.getElementById('studentModal').classList.add('hidden');
+
+            // Navigate to objectives
+            navigateTo('tujuan');
+        }
+
+        function updateHeaderStudentName() {
+            if (studentProfile.name) {
+                document.getElementById('headerStudentName').innerText = `${studentProfile.name} (${studentProfile.class})`;
+            }
+        }
+
+        function showInstructionModal() {
+            document.getElementById('instructionModal').classList.remove('hidden');
+        }
+        function closeInstructionModal() {
+            document.getElementById('instructionModal').classList.add('hidden');
+        }
+
+        function openMateriModal(key) {
+            const data = MATERI_DATA[key];
+            if (data) {
+                document.getElementById('materiModalTitle').innerText = data.title;
+                document.getElementById('materiModalBody').innerHTML = data.content;
+                document.getElementById('materiDetailModal').classList.remove('hidden');
+            }
+        }
+        function closeMateriModal() {
+            document.getElementById('materiDetailModal').classList.add('hidden');
+        }
+
+        function showTrackDetail(part) {
+            const box = document.getElementById('trackInfoBox');
+            if (part === 'awalan') {
+                box.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <span class="text-xs font-bold px-2 py-0.5 bg-red-100 text-red-700 rounded">Area Lintasan Awalan</span>
+                        <h4 class="font-bold text-slate-800 text-base">Lintasan Awalan (Approach Runway)</h4>
+                        <p class="text-xs text-slate-600"><strong>Panjang:</strong> 30 - 45 Meter | <strong>Lebar:</strong> 1.22 Meter.</p>
+                        <p class="text-xs text-slate-600"><strong>Fungsi:</strong> Tempat pelompat berlari mempercepat langkah untuk membangun momentum dorongan horizontal sebelum menumpu.</p>
+                    </div>
+                `;
+            } else if (part === 'papan') {
+                box.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <span class="text-xs font-bold px-2 py-0.5 bg-slate-200 text-slate-800 rounded">Area Papan Tumpu</span>
+                        <h4 class="font-bold text-slate-800 text-base">Papan Tolakan & Garis Plastisin</h4>
+                        <p class="text-xs text-slate-600"><strong>Ukuran:</strong> Panjang 1.21-1.22 M, Lebar 20 Cm, Tebal 10 Cm.</p>
+                        <p class="text-xs text-slate-600"><strong>Fungsi:</strong> Tempat menumpukan 1 kaki terkuat. Garis hitam plastisin di depannya berguna mendeteksi sol sepatu atlet bila melebihi garis (Foul).</p>
+                    </div>
+                `;
+            } else if (part === 'bak') {
+                box.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">Area Pendaratan</span>
+                        <h4 class="font-bold text-slate-800 text-base">Bak Pasir Pendaratan</h4>
+                        <p class="text-xs text-slate-600"><strong>Ukuran:</strong> Panjang 7 - 9 Meter | Lebar 2.75 Meter.</p>
+                        <p class="text-xs text-slate-600"><strong>Fungsi:</strong> Berisi pasir gembur halus untuk meredam benturan tubuh atlet saat mendarat demi keselamatan panggul dan lutut.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderStepSimulator() {
+            const step = STEPS_DATA[currentStepIndex];
+            
+            // Update step indicator
+            document.getElementById('stepIndicatorText').innerText = `Tahap ${currentStepIndex + 1} / ${STEPS_DATA.length}`;
+            document.getElementById('prevStepBtn').disabled = currentStepIndex === 0;
+            document.getElementById('nextStepBtn').disabled = currentStepIndex === STEPS_DATA.length - 1;
+
+            // Update avatar animation icon
+            const avatarIcon = document.getElementById('athleteIcon');
+            avatarIcon.className = `fa-solid ${step.icon} text-5xl`;
+
+            // Update Step Detail Card UI
+            document.getElementById('stepDetailCard').innerHTML = `
+                <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold text-lg">
+                        ${currentStepIndex + 1}
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">${step.title}</h3>
+                        <p class="text-xs text-slate-500">${step.definition}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div class="p-3 bg-white rounded-xl border border-slate-200">
+                        <p class="font-bold text-brand-700 mb-1"><i class="fa-solid fa-bullseye mr-1"></i> Tujuan Tahap:</p>
+                        <p class="text-slate-600">${step.target}</p>
+                    </div>
+                    <div class="p-3 bg-white rounded-xl border border-slate-200">
+                        <p class="font-bold text-blue-700 mb-1"><i class="fa-solid fa-person-walking mr-1"></i> Cara Melakukan:</p>
+                        <p class="text-slate-600">${step.howTo}</p>
+                    </div>
+                    <div class="p-3 bg-red-50 rounded-xl border border-red-200">
+                        <p class="font-bold text-red-700 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kesalahan Umum:</p>
+                        <p class="text-red-900">${step.mistake}</p>
+                    </div>
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                        <p class="font-bold text-amber-800 mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Tips Sukses:</p>
+                        <p class="text-amber-900">${step.tip}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function changeStep(dir) {
+            currentStepIndex += dir;
+            if (currentStepIndex < 0) currentStepIndex = 0;
+            if (currentStepIndex >= STEPS_DATA.length) currentStepIndex = STEPS_DATA.length - 1;
+            renderStepSimulator();
+        }
+
+        
+        function renderQuizQuestion() {
+            const q = QUIZ_QUESTIONS[currentQuizIndex];
+            
+            // Counter & progress bar
+            document.getElementById('quizCounter').innerText = `Soal ${currentQuizIndex + 1} / ${QUIZ_QUESTIONS.length}`;
+            const pct = Math.round(((currentQuizIndex + 1) / QUIZ_QUESTIONS.length) * 100);
+            document.getElementById('quizProgressBar').style.width = pct + '%';
+
+            // Question Text
+            document.getElementById('questionText').innerText = q.q;
+
+            // Options
+            const optContainer = document.getElementById('optionsContainer');
+            optContainer.innerHTML = '';
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50/50 transition font-medium text-sm text-slate-700 flex items-center space-x-3 option-btn`;
+                btn.onclick = () => selectQuizOption(i);
+                btn.innerHTML = `
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 font-bold text-slate-600 flex items-center justify-center text-xs flex-shrink-0 opt-prefix">${String.fromCharCode(65 + i)}</span>
+                    <span>${opt}</span>
+                `;
+                optContainer.appendChild(btn);
+            });
+
+            // Reset buttons visibility & explanation box
+            document.getElementById('explanationBox').classList.add('hidden');
+            document.getElementById('submitAnswerBtn').classList.remove('hidden');
+            document.getElementById('submitAnswerBtn').disabled = true;
+            document.getElementById('submitAnswerBtn').classList.add('opacity-50');
+            document.getElementById('nextQuestionBtn').classList.add('hidden');
+        }
+
+        let selectedOptionIdx = null;
+
+        function selectQuizOption(idx) {
+            selectedOptionIdx = idx;
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach((btn, i) => {
+                if (i === idx) {
+                    btn.classList.add('border-brand-600', 'bg-brand-50', 'ring-2', 'ring-brand-500');
+                } else {
+                    btn.classList.remove('border-brand-600', 'bg-brand-50', 'ring-2', 'ring-brand-500');
+                }
+            });
+
+            const subBtn = document.getElementById('submitAnswerBtn');
+            subBtn.disabled = false;
+            subBtn.classList.remove('opacity-50');
+        }
+
+        function submitQuizAnswer() {
+            if (selectedOptionIdx === null) return;
+
+            const q = QUIZ_QUESTIONS[currentQuizIndex];
+            const isCorrect = selectedOptionIdx === q.correct;
+
+            // Save answer
+            quizAnswers[currentQuizIndex] = {
+                selected: selectedOptionIdx,
+                isCorrect: isCorrect
+            };
+
+            // Highlight answers visually
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === q.correct) {
+                    btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                } else if (i === selectedOptionIdx && !isCorrect) {
+                    btn.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+                }
+            });
+
+            // Show explanation
+            const expBox = document.getElementById('explanationBox');
+            expBox.classList.remove('hidden');
+            if (isCorrect) {
+                expBox.className = "p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 text-sm leading-relaxed";
+                expBox.innerHTML = `<strong><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Jawaban Benar!</strong><p class="mt-1">${q.exp}</p>`;
+            } else {
+                expBox.className = "p-4 rounded-xl border bg-red-50 border-red-200 text-red-900 text-sm leading-relaxed";
+                expBox.innerHTML = `<strong><i class="fa-solid fa-circle-xmark text-red-600 mr-1"></i> Jawaban Kurang Tepat.</strong><p class="mt-1">${q.exp}</p>`;
+            }
+
+            document.getElementById('submitAnswerBtn').classList.add('hidden');
+            document.getElementById('nextQuestionBtn').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            selectedOptionIdx = null;
+            if (currentQuizIndex < QUIZ_QUESTIONS.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            // Check student profile
+            if (!studentProfile.name) {
+                openStudentModal();
+                return;
+            }
+
+            // Calculate score
+            let correctCount = 0;
+            quizAnswers.forEach(ans => {
+                if (ans && ans.isCorrect) correctCount++;
+            });
+
+            const total = QUIZ_QUESTIONS.length;
+            const percentage = Math.round((correctCount / total) * 100);
+            quizScore = percentage;
+
+            let category = "";
+            let categoryClass = "";
+
+            if (percentage >= 90) {
+                category = "Sangat Baik";
+                categoryClass = "bg-emerald-100 text-emerald-800";
+            } else if (percentage >= 80) {
+                category = "Baik";
+                categoryClass = "bg-blue-100 text-blue-800";
+            } else if (percentage >= 70) {
+                category = "Cukup";
+                categoryClass = "bg-amber-100 text-amber-800";
+            } else {
+                category = "Perlu Belajar Lagi";
+                categoryClass = "bg-red-100 text-red-800";
+            }
+
+            // Populate Result Card
+            document.getElementById('resName').innerText = studentProfile.name;
+            document.getElementById('resClass').innerText = `${studentProfile.class} / Absen ${studentProfile.absen}`;
+            document.getElementById('resCorrect').innerText = `${correctCount} / ${total}`;
+            document.getElementById('resWrong').innerText = `${total - correctCount} / ${total}`;
+            document.getElementById('resScore').innerText = `${percentage} / 100`;
+            
+            const catEl = document.getElementById('resCategory');
+            catEl.innerText = category;
+            catEl.className = `font-bold px-2 py-0.5 rounded text-xs ${categoryClass}`;
+
+            // Show result card, hide quiz container
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('quizResultBox').classList.remove('hidden');
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            quizAnswers = [];
+            selectedOptionIdx = null;
+            document.getElementById('quizResultBox').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        
+        function handleReflectionSubmit(e) {
+            e.preventDefault();
+            if (!studentProfile.name) {
+                openStudentModal();
+                return;
+            }
+
+            const refData = {
+                nama: studentProfile.name,
+                kelas: studentProfile.class,
+                absen: studentProfile.absen,
+                ref1: document.getElementById('ref1').value,
+                ref2: document.getElementById('ref2').value,
+                ref3: document.getElementById('ref3').value,
+                ref4: document.getElementById('ref4').value,
+                timestamp: new Date().toLocaleString('id-ID')
+            };
+
+            // Post to Google Apps Script if URL exists
+            if (GOOGLE_APPS_SCRIPT_WEB_APP_URL) {
+                fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: 'reflection', data: refData })
+                }).then(() => {
+                    showCustomToast("Refleksi berhasil dikirim ke Google Sheets Guru!");
+                }).catch(err => {
+                    console.error(err);
+                    showCustomToast("Refleksi tersimpan secara lokal.");
+                });
+            } else {
+                showCustomToast("Refleksi berhasil disimpan di memori HP/Laptop!");
+            }
+
+            document.getElementById('reflectionForm').reset();
+        }
+
+        function sendScoreToGoogle() {
+            if (!GOOGLE_APPS_SCRIPT_WEB_APP_URL) {
+                showCustomToast("Tautan Google Apps Script belum dipasang oleh Guru. Hubungi Guru PJOK!");
+                return;
+            }
+
+            const payload = {
+                type: 'quiz_score',
+                data: {
+                    nama: studentProfile.name,
+                    kelas: studentProfile.class,
+                    absen: studentProfile.absen,
+                    skor: quizScore,
+                    timestamp: new Date().toLocaleString('id-ID')
+                }
+            };
+
+            fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                showCustomToast("Nilai Kuis Berhasil Dikirim ke Spreadsheet Guru!");
+            }).catch(err => {
+                showCustomToast("Gagal mengirim data. Periksa koneksi internet.");
+            });
+        }
+
+        function openExternalUrl(url) {
+            if (url && url !== "") {
+                window.open(url, '_blank');
+            } else {
+                showCustomToast("Link Google belum dikonfigurasi oleh Guru.");
+            }
+        }
+
+        function showCustomToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl z-50 text-xs font-semibold flex items-center space-x-2 border border-slate-700 animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-amber-400 text-base"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
